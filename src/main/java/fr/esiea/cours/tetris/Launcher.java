@@ -5,28 +5,53 @@ import java.util.Scanner;
 public class Launcher {
 	public static void main(String[] args) {	
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+			private int connex;
+			private int multi;
+			
 			public void run() {
-				Scanner sc = new Scanner(System.in);
 				System.out.println("Bonjour");
-				System.out.println("Voulez-vous jouer en solo ou en multi?");
-				int multi;
-				while(1==1)
+				players();
+			}
+			public void players(){
+				System.out.println("Voulez-vous jouer en solo(1) ou en multi(2)?");
+				@SuppressWarnings("resource")
+				Scanner sc = new Scanner(System.in);
+				while(true)
 				{
 					multi = sc.nextInt();
-					if(multi == 2)
-					{
-						System.out.println("Vous avez saisi : multi");
-						break;
-					}
 					if(multi==1)
 					{
 						System.out.println("Vous avez saisi : solo");
+						Tetris t = new Tetris(multi);
+						t.setVisible(true);
 						break;
 					}
-					else System.out.println("Veuillez resaisir le mode : 1 pour solo , 2 pour multi");
+					if(multi == 2)
+					{
+						System.out.println("Vous avez saisi : multi");
+						connexion();
+						Tetris t = new Tetris(multi);
+						t.setVisible(true);
+						break;
+					}
+					else System.out.println("Veuillez re-saisir le mode : 1 pour solo , 2 pour multi");
 				}
-				Tetris t = new Tetris(multi);
-				t.setVisible(true);
+			}
+			public void connexion()
+			{
+				System.out.println("Etes-vous serveur(1) ou client(2)");
+				Scanner sc = new Scanner(System.in);
+				connex=sc.nextInt();
+				if(connex==1)
+				{
+					new Serveur();
+					Serveur.main(null);
+				}
+				if(connex==2)
+				{
+					new Client();
+					Client.main(null);
+				}
 			}
 		});
 	}
