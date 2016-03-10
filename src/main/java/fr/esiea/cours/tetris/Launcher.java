@@ -7,33 +7,25 @@ public class Launcher {
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			private int connex;
 			private int multi;
-			
 			public void run() {
 				System.out.println("Bonjour");
 				players();
+				Tetris t = new Tetris(multi);
+				t.setVisible(true);
 			}
 			public void players(){
 				System.out.println("Voulez-vous jouer en solo(1) ou en multi(2)?");
-				@SuppressWarnings("resource")
 				Scanner sc = new Scanner(System.in);
 				while(true)
 				{
 					multi = sc.nextInt();
-					if(multi==1)
-					{
+					if(multi==1){
 						System.out.println("Vous avez saisi : solo");
-						Tetris t = new Tetris(multi);
-						t.setVisible(true);
-						break;
-					}
-					if(multi == 2)
-					{
+						break;}
+					if(multi == 2){
 						System.out.println("Vous avez saisi : multi");
 						connexion();
-						Tetris t = new Tetris(multi);
-						t.setVisible(true);
-						break;
-					}
+						break;}
 					else System.out.println("Veuillez re-saisir le mode : 1 pour solo , 2 pour multi");
 				}
 			}
@@ -44,6 +36,7 @@ public class Launcher {
 				connex=sc.nextInt();
 				if(connex==1)
 				{
+					
 					new Serveur();
 					Serveur.main(null);
 				}
