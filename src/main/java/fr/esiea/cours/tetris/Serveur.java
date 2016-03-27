@@ -6,40 +6,45 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class Serveur {
-
-	private static Scanner sc;
-
-	public static void main(String[] zero) {
-
+public class Serveur extends Thread {
+	public static Scanner sc;
+	private boolean connexion = false;
+	private int port;
+	public Serveur(int name)
+	{
+		this.port=name;
+	//	System.out.println("Port passé = " + this.port);
+	}
+	public void run(){
 		ServerSocket socketserver  ;
 		Socket socketduserveur ;
 		PrintWriter out;
 		sc = new Scanner(System.in);
-
 		try {
-
-			socketserver = new ServerSocket(2009);
-			System.out.println("Le serveur est à l'écoute du port "+socketserver.getLocalPort());
+			socketserver = new ServerSocket(port);
+			System.out.println("Le serveur est à l'écoute sur le port "+socketserver.getLocalPort());
 			socketduserveur = socketserver.accept(); 
-			System.out.println("Un zéro s'est connecté");
+			connexion=true;
+	//		System.out.println("Server connexion flag = " + connexion);
 			out = new PrintWriter(socketduserveur.getOutputStream());
-			out.println("Vous êtes connecté zéro !");
 			while(true)	
 			{
 				String string=sc.nextLine();
-				out.println(string);
-				out.flush();
-				if(string.equals("stop")) break;
+				if(string.equals("display")) System.out.println(socketduserveur);
+				if(string.equals("stop")) {
+					out.println(string);
+					out.flush();
+					break;
+				}
 			}
-			System.out.println("Connexion terminée");
 			socketduserveur.close();
 			socketserver.close();
-
 		}catch (IOException e) {
-
 			e.printStackTrace();
 		}
 	}
-
+	public boolean getconnexion(){
+	//	System.out.println("Serveur: " + this.connexion);
+		return connexion;
+	}
 }

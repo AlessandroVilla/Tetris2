@@ -6,23 +6,31 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class Client {
+public class Client extends Thread {
 	
 	private static Scanner sc;
 	public String message_distant;
-
-	public static void main(String[] zero){
-
+	private boolean connexion=false;
+	private int port;
+	public Client(int name)
+	{
+		this.port=name;
+	//	System.out.println("Port passé = " + this.port);
+	}
+	public void run(){
 		Socket socket;
 		BufferedReader in;
+//		int port=1500;
 		try {
 		sc = new Scanner(System.in);
 		System.out.println("Entrez l'ip du serveur : ");
 		String string=sc.nextLine();
-		socket = new Socket(string,2009);
-		System.out.println("Demande de connexion");
-
+		socket = new Socket(string,port);
+		System.out.println("Demande de connexion au port "+port);
 		in = new BufferedReader (new InputStreamReader (socket.getInputStream()));
+		System.out.println("Connexion réussie!");
+		connexion=true;
+		System.out.println(connexion);
 		while(true)
 		{
 			String message_distant = in.readLine();
@@ -31,10 +39,11 @@ public class Client {
 		}
 		System.out.println("Connexion terminée");
 		socket.close();
-		} catch (IOException e) {
-			
-			e.printStackTrace();
-		}
+		} catch (IOException e) {e.printStackTrace();}
+	}
+	
+	public boolean getconnexion(){
+		// System.out.println("Client : " + this.connexion);
+		return connexion;
 	}
 }
-
