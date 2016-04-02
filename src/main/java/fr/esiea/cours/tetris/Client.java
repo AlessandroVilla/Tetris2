@@ -3,47 +3,52 @@ package fr.esiea.cours.tetris;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.ConnectException;
 import java.net.Socket;
-import java.util.Scanner;
+import java.net.SocketException;
 
 public class Client extends Thread {
 	
-	private static Scanner sc;
 	public String message_distant;
-	private boolean connexion=false;
 	private int port;
-	public Client(int name)
+	private String IP;
+	String str;
+	public Client(int name, String IP)
 	{
+		this.IP=IP;
 		this.port=name;
-	//	System.out.println("Port passé = " + this.port);
 	}
 	public void run(){
 		Socket socket;
-		BufferedReader in;
-//		int port=1500;
 		try {
-		sc = new Scanner(System.in);
-		System.out.println("Entrez l'ip du serveur : ");
-		String string=sc.nextLine();
-		socket = new Socket(string,port);
+		socket = new Socket(IP,port);
 		System.out.println("Demande de connexion au port "+port);
-		in = new BufferedReader (new InputStreamReader (socket.getInputStream()));
 		System.out.println("Connexion réussie!");
-		connexion=true;
-		System.out.println(connexion);
-		while(true)
-		{
-			String message_distant = in.readLine();
-			System.out.println(message_distant);
-			if(message_distant.equals("stop")) break;
-		}
+		sending(socket);
 		System.out.println("Connexion terminée");
 		socket.close();
+		} catch (ConnectException e) {System.out.println("Connexion non réussi au port tcp de l'adversaire");
+		} catch (SocketException e) {System.out.println("Connexion adversaire terminée");
 		} catch (IOException e) {e.printStackTrace();}
 	}
-	
-	public boolean getconnexion(){
-		// System.out.println("Client : " + this.connexion);
-		return connexion;
+	public void sending(Socket socket) throws IOException
+	{
+		int random = (int)(Math.random() * 2);
+        BufferedReader plec = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        PrintWriter pred = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()),true);
+		if( random == 0)
+		{
+			str = "SpeedMalus";
+	        pred.println(str);          // envoi d'un message
+	        str = plec.readLine();      // lecture de l'écho
+		}
+		else
+		{
+			str="ScoreMalus";
+		    pred.println(str);          // envoi d'un message
+		    str = plec.readLine();      // lecture de l'écho
+		}
 	}
 }

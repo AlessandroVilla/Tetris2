@@ -31,46 +31,18 @@ public class Piecemodele {
 			{0,7,7,0,0,0,7,0,0,0,7,0,0,0,0,0},
 			{0,0,0,0,0,7,7,7,0,7,0,0,0,0,0,0} }; //serpent 2s                
 	public int [][] tableaupiece =  new int [4][16];
-	public void creationpiece (){
+	public void creationpiece (){// Fonction non réductible our SOLID
 		rand = (int)(Math.random() * 100);
 		rand = (rand % 7) + 1;
 		System.out.println(""+rand);
 		switch(rand){
-		case 1:
-			for(int i=0;i<4;i++)
-				for (int j=0;j<16;j++)
-					tableaupiece[i][j]=P1[i][j];
-			break;
-		case 2:
-			for(int i=0;i<4;i++)
-				for (int j=0;j<16;j++)
-					tableaupiece[i][j]=P2[i][j];
-			break;
-		case 3:
-			for(int i=0;i<4;i++)
-				for (int j=0;j<16;j++)
-					tableaupiece[i][j]=P3[i][j];
-			break;
-		case 4:
-			for(int i=0;i<4;i++)
-				for (int j=0;j<16;j++)
-					tableaupiece[i][j]=P4[i][j];
-			break;
-		case 5:
-			for(int i=0;i<4;i++)
-				for (int j=0;j<16;j++)
-					tableaupiece[i][j]=P5[i][j];
-			break;
-		case 6:
-			for(int i=0;i<4;i++)
-				for (int j=0;j<16;j++)
-					tableaupiece[i][j]=P6[i][j];
-			break;
-		case 7:
-			for(int i=0;i<4;i++)
-				for (int j=0;j<16;j++)
-					tableaupiece[i][j]=P7[i][j];
-			break;
+		case 1: for(int i=0;i<4;i++) for (int j=0;j<16;j++) tableaupiece[i][j]=P1[i][j];break;
+		case 2:	for(int i=0;i<4;i++) for (int j=0;j<16;j++) tableaupiece[i][j]=P2[i][j];break;
+		case 3: for(int i=0;i<4;i++) for (int j=0;j<16;j++) tableaupiece[i][j]=P3[i][j];break;
+		case 4: for(int i=0;i<4;i++) for (int j=0;j<16;j++) tableaupiece[i][j]=P4[i][j];break;
+		case 5: for(int i=0;i<4;i++) for (int j=0;j<16;j++) tableaupiece[i][j]=P5[i][j];break;
+		case 6: for(int i=0;i<4;i++) for (int j=0;j<16;j++) tableaupiece[i][j]=P6[i][j];break;
+		case 7: for(int i=0;i<4;i++) for (int j=0;j<16;j++) tableaupiece[i][j]=P7[i][j];break;
 		}	
 	}
 
