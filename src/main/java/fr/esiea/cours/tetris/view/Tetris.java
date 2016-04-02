@@ -165,7 +165,7 @@ public class Tetris extends JPanel {
 		 if(pc.isPerdu()) g.drawImage(imgGO, 50, 200, 200, 200, null);
 	} 
 	private static void sendmalus() {
-		if(pc.getCptsc()==1)
+		if(pc.getCptsc()==10)
 		{
 			System.out.println("Send Malus");
 			pc.setCptsc(0);
