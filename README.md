@@ -1,5 +1,6 @@
 # Tetris2
 
+java -jar Tetris.jar
 How to play:
 
 Flèches Gauche/Droite pour se déplacer latéralement sur le plateau
