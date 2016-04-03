@@ -17,7 +17,7 @@ import fr.esiea.cours.tetris.modele.Piecemodele;
 
 @SuppressWarnings("serial")
 public class Tetris extends JPanel {
-	static JFrame frame;
+    static JFrame frame;
 	static Tetris game;
 	int x = 0;int y = 0;
 	static public int plateau[][];
@@ -27,10 +27,10 @@ public class Tetris extends JPanel {
 	static Image img[] = new Image[10];
 	static Image imgGO;
 	static long sleep_time=700;
-	static String IP;
+	static private String IP;
 	static Client c;
 	static Serveur s;
-	static int multi;
+	static private int multi;
 	int portserv;
 	static int portclient;
 	char[] text_tetris = { 'T', 'e', 't', 'r', 'i', 's'};
@@ -41,8 +41,8 @@ public class Tetris extends JPanel {
 		initialisation();
 	}
 	public Tetris(String IP,int joueur) {
-		Tetris.IP=IP;
-		multi=1;
+		setIP(IP);
+		setMulti(1);
 		initialisation();
 		System.out.println("Mode Multijoueur");
 		if(joueur==1){portserv =1500;portclient=1501;}
@@ -200,5 +200,17 @@ public class Tetris extends JPanel {
 				case KeyEvent.VK_DOWN:{pc.rotateRight(plateau, pm.tableaupiece);repaint();break;}
 			}	
 		}
+	}
+	public static String getIP() {
+		return IP;
+	}
+	public static void setIP(String iP) {
+		IP = iP;
+	}
+	public static int getMulti() {
+		return multi;
+	}
+	public static void setMulti(int multi) {
+		Tetris.multi = multi;
 	}
 }

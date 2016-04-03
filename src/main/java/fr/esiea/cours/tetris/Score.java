@@ -37,7 +37,7 @@ public class Score {
 		    	pw.write(s+"\n");
 		    	i++;
 		    }
-		    System.out.println ("Le nouveau score est de :"+al.get(0));
+		    System.out.println ("Le nouveau score est de :"+score);
 		    pw.close();
 		}
 		catch (IOException exception){System.out.println ("Erreur lors de la lecture : " + exception.getMessage());System.exit(0);}}

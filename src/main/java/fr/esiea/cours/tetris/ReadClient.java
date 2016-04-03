@@ -20,6 +20,9 @@ import java.net.Socket;
 			setMalus(m);
 			socket = s;
 		}
+		public ReadClient(Socket s){
+			socket = s;
+		}
 		public void run() {
 			try {
 				BufferedReader plec = new BufferedReader(new InputStreamReader(socket.getInputStream()));

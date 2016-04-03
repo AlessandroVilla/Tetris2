@@ -8,11 +8,11 @@ import java.util.Scanner;
 public class Serveur extends Thread {
 	public static Scanner sc;
 	private boolean connexion = false;
-	public String malus=null;
 	private int port;
 	public String str=null;
 	public Thread t1;
 	public ReadClient rc;
+	//private String malus;
 	
 	public Serveur(int name)
 	{
@@ -21,6 +21,7 @@ public class Serveur extends Thread {
 	public void run(){
 		ServerSocket socketserver = null  ;
 		Socket socketduserveur ;
+	//	malus=null;
 		System.out.println("Port passé = " + this.port);
 			try {
 				socketserver = new ServerSocket(port);
@@ -33,7 +34,8 @@ public class Serveur extends Thread {
 				while(true){
 					socketduserveur = socketserver.accept();
 					System.out.println("Adversaire connecté!  ");
-					rc = new ReadClient(socketduserveur, malus);
+					//rc = new ReadClient(socketduserveur, malus);
+					rc=new ReadClient(socketduserveur);
 					t1 = new Thread(rc);
 					t1.start();
 					System.out.println("Changement de la variable malus");
