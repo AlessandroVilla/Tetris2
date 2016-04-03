@@ -17,14 +17,14 @@ public class Launcher2 {
 		{
 			try {
 				new Tetris();
-				Tetris.frameinit();
+				Tetris.frameInit();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			};}
 		if(multi==2)
 		{
 			try {
-				new Tetris(connex,joueur);Tetris.frameinit();
+				new Tetris(connex,joueur);Tetris.frameInit();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			};}

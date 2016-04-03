@@ -33,6 +33,9 @@ public class Tetris extends JPanel {
 	static int multi;
 	int portserv;
 	static int portclient;
+	char[] text_tetris = { 'T', 'e', 't', 'r', 'i', 's'};
+	char[] text_score = { 'S', 'c', 'o', 'r', 'e'};
+	char[] text_author = { 'B', 'y', ':', ' ', 'A', 'l', 'e', 'x', 'a', 'n', 'd', 'r', 'e', ' ', 'V', 'I', 'L', 'L', 'A'};
 	
 	public Tetris() {
 		initialisation();
@@ -59,12 +62,12 @@ public class Tetris extends JPanel {
 			imgGO = pv.LoadImage("GameOver.gif");
 			pm.creationpiece();
 			pc.setTabpiece(pm);
-			plateau=pc.affiche_piece(plateau,pm.tableaupiece);
+			plateau=pc.affichePiece(plateau,pm.tableaupiece);
 			KeyListener listener = new MyKeyListener();
 			addKeyListener(listener);
 			setFocusable(true);
 	 }
-		public static void frameinit() throws InterruptedException {
+		public static void frameInit() throws InterruptedException {
 			frame = new JFrame("Tetris");
 			game = new Tetris();
 			frame.add(game);
@@ -88,18 +91,18 @@ public class Tetris extends JPanel {
 		}
 	public static void multi()
 	{
-		sendmalus();
+		sendMalus();
 		if (s.rc != null) {
 			if ((s.getconnexion()==true) && (s.rc.getMalus() != null)){
 				System.out.println("Apres sendmalus: " + s.rc.getMalus());
 				if (s.rc.getMalus().equals("ScoreMalus")) {
-					if (pc.getScore()>=1000) {
-						pc.setScore((pc.getScore()-1000));
+					if (pc.getScore()>=10000) {
+						pc.setScore((pc.getScore()-10000));
 					} else {
 						pc.setScore(0);
 					}
 				}
-				if(s.rc.getMalus().equals("SpeedMalus"))sleep_time-=500;	
+				if(s.rc.getMalus().equals("SpeedMalus"))sleep_time-=300;	
 				s.rc.setMalus(null);
 				
 			}
@@ -107,7 +110,7 @@ public class Tetris extends JPanel {
 		
 	}
 	@Override
-	 public void paint(Graphics g) {// Non réductible pour SOLID
+	 public void paint(Graphics g) {
 		 super.paint(g);
 		 for (int k=0; k<pc.getCol(); k++) {
 			for (int l=0; l<pc.getLin(); l++) {
@@ -117,22 +120,27 @@ public class Tetris extends JPanel {
 				}
 				else
 				{
-					switch (plateau[k][l]) {
-					case 1:     g.setColor(new Color(0,192,0));       g.fill3DRect(25*k,25*l,25,25,true); break; //vert
-					case 2:     g.setColor(Color.pink);               g.fill3DRect(25*k,25*l,25,25,true); break; //rouge
-					case 3:     g.setColor(new Color(0,128,224));     g.fill3DRect(25*k,25*l,25,25,true); break; //bleu
-					case 4:     g.setColor(new Color(0,192,192));     g.fill3DRect(25*k,25*l,25,25,true); break; //cyan
-					case 5:     g.setColor(Color.orange);             g.fill3DRect(25*k,25*l,25,25,true); break; //orange
-					case 6:     g.setColor(Color.darkGray);           g.fill3DRect(25*k,25*l,25,25,true); break; //gris
-					case 7:     g.setColor(Color.magenta);            g.fill3DRect(25*k,25*l,25,25,true); break; //magenta
-					case 8:     g.setColor(Color.black);              g.fill3DRect(25*k,25*l,25,10,true); break; //noir
-					}
+					paintPiece(g, k, l);
 				}
 			}
 		}
-		 char[] text_tetris = { 'T', 'e', 't', 'r', 'i', 's'};
-		 char[] text_score = { 'S', 'c', 'o', 'r', 'e'};
-		 char[] text_author = { 'B', 'y', ':', ' ', 'A', 'l', 'e', 'x', 'a', 'n', 'd', 'r', 'e', ' ', 'V', 'I', 'L', 'L', 'A'};
+		paintMenu(g);
+	}
+	public void paintPiece(Graphics g, int k , int l)
+	{
+		switch (plateau[k][l]) {
+		case 1:     g.setColor(new Color(0,192,0));       g.fill3DRect(25*k,25*l,25,25,true); break; //vert
+		case 2:     g.setColor(Color.pink);               g.fill3DRect(25*k,25*l,25,25,true); break; //rouge
+		case 3:     g.setColor(new Color(0,128,224));     g.fill3DRect(25*k,25*l,25,25,true); break; //bleu
+		case 4:     g.setColor(new Color(0,192,192));     g.fill3DRect(25*k,25*l,25,25,true); break; //cyan
+		case 5:     g.setColor(Color.orange);             g.fill3DRect(25*k,25*l,25,25,true); break; //orange
+		case 6:     g.setColor(Color.darkGray);           g.fill3DRect(25*k,25*l,25,25,true); break; //gris
+		case 7:     g.setColor(Color.magenta);            g.fill3DRect(25*k,25*l,25,25,true); break; //magenta
+		case 8:     g.setColor(Color.black);              g.fill3DRect(25*k,25*l,25,10,true); break; //noir
+		}
+	}
+	public void paintMenu(Graphics g)
+	{
 		 g.setColor(Color.black);
 		 g.draw3DRect (300,0,240,608,true);
 		 g.fill3DRect (300,0,240,608,true);
@@ -146,6 +154,10 @@ public class Tetris extends JPanel {
 		 g.setFont(new Font("Arial", 1, 11)); 
 		 g.drawChars(text_author, 0, 19, 370, 590);
 		 setBackground(Color.WHITE);
+		 paintScore(g);
+	}
+	public void paintScore(Graphics g)
+	{
 		 int j = pc.getScore();
 		 int z = j/10000;
 		 if (z >= 0 && z <= 9)g.drawImage(img[z], 300, 300, 60, 80, null);
@@ -163,15 +175,14 @@ public class Tetris extends JPanel {
 		 if (z >= 0 && z <= 9)g.drawImage(img[z], 480, 300, 60, 80, null); 
 		 else g.drawImage(img[0], 480, 300, 60, 80, null);
 		 if(pc.isPerdu()) g.drawImage(imgGO, 50, 200, 200, 200, null);
-	} 
-	private static void sendmalus() {
+	}
+	private static void sendMalus() {
 		if(pc.getCptsc()==10)
 		{
 			System.out.println("Send Malus");
 			pc.setCptsc(0);
 			c=new Client(portclient,IP);// design-pattern : lazy-initialization
 			c.start();
-			
 		}
 	}
 	public class MyKeyListener implements KeyListener {
@@ -185,8 +196,8 @@ public class Tetris extends JPanel {
 				case KeyEvent.VK_LEFT:{pc.gauche(plateau,pm.tableaupiece);repaint();break;}
 				case KeyEvent.VK_RIGHT:{pc.droite(plateau, pm.tableaupiece);repaint();break;}
 				case KeyEvent.VK_SPACE:{pc.space(plateau, pm.tableaupiece);repaint();break;}
-				case KeyEvent.VK_UP:{pc.rotateleft(plateau, pm.tableaupiece);repaint();break;}
-				case KeyEvent.VK_DOWN:{pc.rotateright(plateau, pm.tableaupiece);repaint();break;}
+				case KeyEvent.VK_UP:{pc.rotateLeft(plateau, pm.tableaupiece);repaint();break;}
+				case KeyEvent.VK_DOWN:{pc.rotateRight(plateau, pm.tableaupiece);repaint();break;}
 			}	
 		}
 	}

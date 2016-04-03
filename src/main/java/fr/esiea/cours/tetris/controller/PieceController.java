@@ -26,7 +26,7 @@ public class PieceController {
 				int m=i%4;		
 				int n=i/4;
 				if(x+m>=col-1)return true;
-				if (test_pieceD(i, piece) == true) {
+				if (testPieceD(i, piece) == true) {
 					if(tableau[x+1+m][y+n]!=0)return true;
 				}
 			}
@@ -34,7 +34,7 @@ public class PieceController {
 		return false;	
 	}
 
-	public boolean test_pieceD (int i, int piece[][]) {
+	public boolean testPieceD (int i, int piece[][]) {
 		switch(i)
 		{
 		case 0: if (piece[p][1] + piece[p][2] + piece[p][3] > 0) return false; break;
@@ -60,7 +60,7 @@ public class PieceController {
 				int m=i%4;
 				int n=i/4;
 				if(x+m<=0) return true;
-				if (test_pieceG(i, piece)) {
+				if (testPieceG(i, piece)) {
 					if(tableau[x-1+m][y+n]!=0) return true;
 				}
 			}
@@ -68,7 +68,7 @@ public class PieceController {
 		return false;	
 	}
 	
-	public boolean test_pieceG (int i, int piece[][]) {
+	public boolean testPieceG (int i, int piece[][]) {
 		switch(i)
 		{
 		case 1: if (piece[p][0] > 0) return false; break;
@@ -138,20 +138,20 @@ public class PieceController {
 		if (bloque(tableau, piece)) {
 			flagpiece = true;
 			y--;
-			affiche_piece(tableau, piece);
-			verifie_ligne(tableau);
+			affichePiece(tableau, piece);
+			verifieLigne(tableau);
 			y = 0;x = 6;
 			Tabpiece.creationpiece();
 			if(perdu(tableau,piece)){
 				Score score =  Score.getINSTANCE();//singleton
 				System.out.println("Vous avez perdu");
-				score.lecturescore();
-				score.savescore(this.score);
+				//score.lecturescore();
+				score.saveScore(this.score);
 				setPerdu(true);}
-		} else affiche_piece(tableau, piece);
+		} else affichePiece(tableau, piece);
 	}
 	
-	public void verifie_ligne(int[][] tableau) {
+	public void verifieLigne(int[][] tableau) {
 		for (int i=0; i<lin-1; i++) {
 			b=false;
 			for (int j=0; j<col; j++)
@@ -169,7 +169,7 @@ public class PieceController {
 		}
 	}
 	
-	public int[][] affiche_piece(int[][] tableau,int[][] piece) {
+	public int[][] affichePiece(int[][] tableau,int[][] piece) {
 		for (int m=0;m<4;m++)
 			if ( ((x+m)<col) && ((x+m)>=0) && (tableau[x+m][y]==0) && (piece[p][m] != 0))
 				tableau[x+m][y] = piece[p][m];
@@ -212,7 +212,7 @@ public class PieceController {
 				int x = getX();
 				x--;
 				setX(x);
-				affiche_piece(tableau, piece);
+				affichePiece(tableau, piece);
 			}
 		}
 	}
@@ -224,7 +224,7 @@ public class PieceController {
 				int x = getX();
 				x++;
 				setX(x);
-				affiche_piece(tableau, piece);
+				affichePiece(tableau, piece);
 			}
 		}
 	}
@@ -237,7 +237,7 @@ public class PieceController {
 			}
 		}
 	}
-	public void rotateleft(int[][] tableau, int[][] piece)
+	public void rotateLeft(int[][] tableau, int[][] piece)
 	{
 		if(!isPerdu()) {
 			clean(tableau,piece);
@@ -245,11 +245,11 @@ public class PieceController {
 			if (++x > 3) x = 0;
 			if (!rotate(tableau, piece, x)) {
 				setP(x);
-				affiche_piece(tableau,piece);
+				affichePiece(tableau,piece);
 			}
 		}
 	}
-	public void rotateright(int[][] tableau, int[][] piece)
+	public void rotateRight(int[][] tableau, int[][] piece)
 	{
 		if(!isPerdu()) {
 			clean(tableau, piece);
@@ -257,7 +257,7 @@ public class PieceController {
 			if (--x < 0) x = 3;
 			if (!rotate(tableau, piece, x)) {
 				setP(x);
-				affiche_piece(tableau,piece);
+				affichePiece(tableau,piece);
 			}
 		}
 	}
